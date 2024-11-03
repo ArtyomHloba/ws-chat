@@ -7,20 +7,21 @@ module.exports.getMessages = async (req, res, next) => {
     const foundMessages = await Message.find()
       .sort({ createdAt: -1 })
       .limit(Number(limit));
+
     res.status(200).send({ data: foundMessages });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports.createMessage = async (req, res, next) => {
-  const { body } = req;
+// module.exports.createMessage = async (req, res, next) => {
+//   const { body } = req;
 
-  try {
-    const createdMessage = await Message.create(body);
+//   try {
+//     const createdMessage = await Message.create(body);
 
-    res.status(201).send({ data: createdMessage });
-  } catch (err) {
-    next(err);
-  }
-};
+//     res.status(201).send({ data: createdMessage });
+//   } catch (err) {
+//     next(err);
+//   }
+// };
