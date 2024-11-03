@@ -16,16 +16,22 @@ function App ({ messages, isFetching, error, limit, get }) {
   };
 
   return (
-    <article>
-      <section>
-        <ul>
-          {messages.map(m => (
-            <li key={m._id} className={styles.messageItem}>
-              <p>{m._id}</p>
-              <p>{m.body}</p>
-              <p>{m.createdAt}</p>
-            </li>
-          ))}
+    <article className={styles.messegerContainer}>
+      <section className={styles.messageWrapper}>
+        <ul className={styles.message}>
+          {messages.map(m => {
+            const time = new Date(m.createdAt).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            });
+
+            return (
+              <li key={m._id} className={styles.messageItem}>
+                <p>{m.body}</p>
+                <p className={styles.messageTime}>{time}</p>
+              </li>
+            );
+          })}
         </ul>
         <div>
           {error && <div style={{ color: 'red' }}>ERROR!!!</div>}
@@ -36,7 +42,11 @@ function App ({ messages, isFetching, error, limit, get }) {
       <section className={styles.formContainer}>
         <Formik initialValues={{ body: '' }} onSubmit={addMessage}>
           <Form>
-            <Field name='body'></Field>
+            <Field
+              className={styles.input}
+              placeholder='Whrite...'
+              name='body'
+            ></Field>
             <button type='submit'>Send</button>
           </Form>
         </Formik>
