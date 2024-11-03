@@ -9,7 +9,6 @@ module.exports.getMessages = async (req, res, next) => {
       .limit(Number(limit));
     res.status(200).send({ data: foundMessages });
   } catch (err) {
-    console.log('err :>> ', err);
     next(err);
   }
 };
