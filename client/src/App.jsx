@@ -32,13 +32,16 @@ function App ({ messages, isFetching, error, limit, get }) {
 
             return (
               <li key={m._id} className={styles.messageItem}>
-                <div className={styles.messageTextContainer}>
+                <div className={styles.messageContent}>
                   <p>{m.body}</p>
-                  <button className={styles.trashButton}>
-                    <FaTrash />
-                  </button>
                 </div>
                 <p className={styles.messageTime}>{time}</p>
+                <button
+                  onClick={() => handleDeleteMessage(m._id)}
+                  className={styles.trashButton}
+                >
+                  <FaTrash />
+                </button>
               </li>
             );
           })}
@@ -57,7 +60,9 @@ function App ({ messages, isFetching, error, limit, get }) {
               placeholder='Write...'
               name='body'
             ></Field>
-            <button type='submit'>Send</button>
+            <button className={styles.subBtn} type='submit'>
+              Send
+            </button>
           </Form>
         </Formik>
       </section>
