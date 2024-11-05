@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import { getMessagesThunk } from './store/slices/messagesSlice';
 import styles from './App.module.css';
 import { connect } from 'react-redux';
-import { createMessage } from './api';
+import { createMessage, deleteMessage } from './api';
 
 function App ({ messages, isFetching, error, limit, get }) {
   useEffect(() => {
@@ -13,6 +13,10 @@ function App ({ messages, isFetching, error, limit, get }) {
   const addMessage = (values, formikBag) => {
     createMessage(values);
     formikBag.resetForm();
+  };
+
+  const handleDeleteMessage = id => {
+    deleteMessage(id);
   };
 
   return (
@@ -29,6 +33,9 @@ function App ({ messages, isFetching, error, limit, get }) {
               <li key={m._id} className={styles.messageItem}>
                 <p>{m.body}</p>
                 <p className={styles.messageTime}>{time}</p>
+                <button onClick={() => handleDeleteMessage(m._id)}>
+                  Удалить
+                </button>
               </li>
             );
           })}
@@ -44,7 +51,7 @@ function App ({ messages, isFetching, error, limit, get }) {
           <Form>
             <Field
               className={styles.input}
-              placeholder='Whrite...'
+              placeholder='Write...'
               name='body'
             ></Field>
             <button type='submit'>Send</button>

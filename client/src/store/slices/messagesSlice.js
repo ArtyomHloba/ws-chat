@@ -41,9 +41,11 @@ const messagesSlice = createSlice({
       state.isFetching = false;
       state.error = payload;
     },
+    deleteMessageSuccess (state, { payload: { id } }) {
+      state.messages = state.messages.filter(message => message._id !== id);
+    },
   },
   extraReducers: builder => {
-    // GET
     builder.addCase(getMessagesThunk.pending, state => {
       state.isFetching = true;
       state.error = null;
@@ -60,8 +62,10 @@ const messagesSlice = createSlice({
   },
 });
 
-const { reducer, actions } = messagesSlice;
-export const { newMessagePending, newMessageSuccess, newMessageError } =
-  actions;
-
-export default reducer;
+export const {
+  newMessagePending,
+  newMessageSuccess,
+  newMessageError,
+  deleteMessageSuccess,
+} = messagesSlice.actions;
+export default messagesSlice.reducer;

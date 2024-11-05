@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import {
+  deleteMessageSuccess,
   newMessageError,
   newMessageSuccess,
 } from '../store/slices/messagesSlice';
@@ -13,9 +14,7 @@ const apiInstance = axios.create(axiosOptions);
 
 export const getMessages = limit => apiInstance.get(`/messages?limit=${limit}`);
 
-// -------------------
 const socketClient = io('ws://localhost:5000'); // 'connection'
-// socketClient.emit('connection', socketClient)
 
 export const createMessage = newMessage => {
   socketClient.emit('NEW_MESSAGE', newMessage);
@@ -29,18 +28,12 @@ export const initSocket = store => {
   socketClient.on('NEW_MESSAGE_ERROR', payload => {
     store.dispatch(newMessageError(payload));
   });
+
+  socketClient.on('DELETE_MESSAGE_SUCCESS', payload => {
+    store.dispatch(deleteMessageSuccess(payload));
+  });
 };
 
-// socketClient.on('HELLO_TO_ME', () => {
-//   console.log('Hello in our chat');
-// });
-
-// socketClient.on('NEW_PARTICIPANT', () => {
-//   console.log('New participant come in');
-// });
-
-// socketClient.on('CHAT_WILL_CLOSED', () => {
-//   console.log('We will closed in a few minutes');
-// });
-
-// socketClient.emit('SEND_TO_SERVER', 'Message');
+export const deleteMessage = id => {
+  socketClient.emit('DELETE_MESSAGE', { id });
+};
