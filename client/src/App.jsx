@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
+import { FaTrash } from 'react-icons/fa';
 import { getMessagesThunk } from './store/slices/messagesSlice';
 import styles from './App.module.css';
 import { connect } from 'react-redux';
@@ -31,11 +32,13 @@ function App ({ messages, isFetching, error, limit, get }) {
 
             return (
               <li key={m._id} className={styles.messageItem}>
-                <p>{m.body}</p>
+                <div className={styles.messageTextContainer}>
+                  <p>{m.body}</p>
+                  <button className={styles.trashButton}>
+                    <FaTrash />
+                  </button>
+                </div>
                 <p className={styles.messageTime}>{time}</p>
-                <button onClick={() => handleDeleteMessage(m._id)}>
-                  Удалить
-                </button>
               </li>
             );
           })}
